@@ -36,7 +36,9 @@ router.post("/login", async (req, res) => {
       if (err)
         return res.status(500).json({ message: "Error en la base de datos" });
       if (!user)
-        return res.status(404).json({ message: "Usuario no encontrado" });
+        return res
+          .status(404)
+          .json({ message: "Usuario o contraseña incorrecta" });
 
       const match = await bcrypt.compare(password, user.password);
       if (match) {
@@ -52,7 +54,7 @@ router.post("/login", async (req, res) => {
           username: user.username,
         });
       } else {
-        res.status(401).json({ message: "Usuario o contraseña incorrecta" });
+        res.status(404).json({ message: "Usuario o contraseña incorrecta" });
       }
     }
   );
