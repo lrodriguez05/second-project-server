@@ -6,7 +6,8 @@ const registerEvents = require("./register");
 function createSocket(server) {
   const io = new Server(server, {
     cors: {
-      origin: "*",
+      origin: "https://chat-client-dusky.vercel.app/",
+      //origin: "*",
       methods: ["GET", "POST"],
     },
   });
