@@ -188,6 +188,27 @@ class Chat {
       );
     });
   }
+
+  async getOtherUserInChat(chatId, username) {
+    const query = `
+    SELECT
+      u.username AS other_username,
+      u.picture AS other_user_picture
+    FROM chats c
+    JOIN users u ON u.username = CASE
+      WHEN c.username1 = ? THEN c.username2
+      ELSE c.username1
+    END
+    WHERE c.chat_id = ?
+  `;
+
+    return new Promise((resolve, reject) => {
+      this.db.get(query, [username, chatId], (err, row) => {
+        if (err) return reject(err);
+        resolve(row);
+      });
+    });
+  }
 }
 
 module.exports = Chat;

@@ -82,4 +82,16 @@ router.get("/chats", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/chats/:chatId/otherUser", authMiddleware, async (req, res) => {
+  const { chatId } = req.params;
+  const { username } = req.user;
+
+  try {
+    const otherUser = await chatGestor.getOtherUserInChat(chatId, username);
+    res.json(otherUser);
+  } catch (error) {
+    res.status(500).json({ message: "Error obteniendo el otro usuario" });
+  }
+});
+
 module.exports = router;
