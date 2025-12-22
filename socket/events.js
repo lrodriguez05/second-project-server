@@ -14,7 +14,6 @@ function eventMessage(socket, io) {
       const chatEvent = `chat:${message.chatId}`;
 
       io.emit(chatEvent, sended);
-      console.log(sended);
     } catch (e) {
       console.log(e);
       socket.emit("error", { message: e.message });
