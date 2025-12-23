@@ -140,6 +140,23 @@ class Chat {
     });
   }
 
+  async getParticipants(chatId) {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT username1, username2
+      FROM chats
+      WHERE chat_id = ?
+    `;
+
+      this.db.get(query, [chatId], (err, row) => {
+        if (err) return reject(err);
+        if (!row) return reject({ status: 404, message: "Chat no encontrado" });
+
+        resolve([row.username1, row.username2]);
+      });
+    });
+  }
+
   async getChatsByUsername(username) {
     const query = `
       SELECT
