@@ -11,9 +11,9 @@ function eventMessage(socket, io) {
         message.message
       );
 
-      const chatEvent = `chat:${message.chatId}`;
+      const room = `chat:${message.chatId}`;
 
-      io.emit(chatEvent, sended);
+      io.to(room).emit(room, sended);
     } catch (e) {
       console.log(e);
       socket.emit("error", { message: e.message });
@@ -21,4 +21,14 @@ function eventMessage(socket, io) {
   });
 }
 
-module.exports = eventMessage;
+function eventJoin(socket) {
+  socket.on("join-chat", (chatId) => {
+    socket.join(`chat:${chatId}`);
+  });
+
+  socket.on("leave-chat", (chatId) => {
+    socket.leave(`chat:${chatId}`);
+  });
+}
+
+module.exports = { eventMessage, eventJoin };
