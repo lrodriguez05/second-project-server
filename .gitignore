@@ -4,3 +4,6 @@ dist/
 .DS_Store
 .vscode/
 coverage/
+lachichat.db
+lachichat.db-shm
+lachichat.db-wal
